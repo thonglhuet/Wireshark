@@ -12,6 +12,7 @@ import httptemplate
 a=httptemplate.Http("/home/mitom/PycharmProjects/Assigment/resource/wire.pcap")
 
 print a.host# in ra Tat ca cac host co HTTP
+print a.browser
 
 
 

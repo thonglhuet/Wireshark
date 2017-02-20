@@ -200,7 +200,7 @@ class Request:
         # khoi tao useragent
         s = 'frame.number==' + frame
         s1 = "\"" + s + "\""
-        cmdstring = 'tshark -r ' + file + ' -Y ' + s1 + ' -e http.request.version -T fields'
+        cmdstring = 'tshark -r ' + file + ' -Y ' + s1 + ' -e http.user_agent -T fields'
         p = subprocess.check_output(cmdstring, shell=True)
         p = p.replace("\n", "")
         self.user_agent = p
@@ -210,11 +210,10 @@ class Request:
         url = "https://api.whatismybrowser.com/api/v1/user_agent_parse"
 
         # put your api key in this variable:
-        user_key = "2e3c449f1e5a094a637517494b5893ae"
+        user_key = "025ab01d1272259d390faaab300887fc"
 
         # the user agent to parse
         user_agent = self.user_agent
-
         # -- prepare data for the API request
         post_data = {
             'user_key': user_key,
@@ -296,49 +295,49 @@ class Request:
         else:
             self.if_modified_since=True
 
-    def frame(self):
+    def returnframe(self):
         return self.frame
 
-    def ipsrc(self):
+    def returnipsrc(self):
         return self.ipsrc
 
-    def ipdest(self):
+    def returnipdest(self):
         return self.ipdest
 
-    def method(self):
+    def returnmethod(self):
         return self.method
 
-    def uri(self):
+    def returnuri(self):
         return self.uri
 
-    def requestversion(self):
+    def returnrequestversion(self):
         return self.requestversion
 
-    def user_agent(self):
+    def returnuser_agent(self):
         return self.user_agent
 
-    def browser(self):
+    def returnbrowser(self):
         return self.browser
 
-    def accept(self):
+    def returnaccept(self):
         return self.accept
 
-    def accept_language(self):
+    def returnaccept_language(self):
         return self.accept_language
 
-    def accept_encoding(self):
+    def returnaccept_encoding(self):
         return self.accept_encoding
 
-    def connection(self):
+    def returnconnection(self):
         return self.connection
 
-    def operating_system(self):
+    def returnoperating_system(self):
         return self.operating_system
 
-    def browser_version_full(self):
+    def returnbrowser_version_full(self):
         return self.browser_version_full
 
-    def contain_if_modified_since(self):
+    def returncontain_if_modified_since(self):
         return self.if_modified_since
 
 
@@ -391,18 +390,18 @@ class Http:
             p=p.replace("\n","")
             self.host.append(p)
             #Khoi tao Request object
-            request=Request((self.framerequest)[i],file)
-            (self.requestarray).append(request)
+            temp=Request((self.framerequest)[i],file)
+            (self.requestarray).append(temp)
 
         #Duyet tat ca frame response, khoi tao Response object
         for i in range(len(self.frameresponse)):
             #Khoi tao Response object
-            response=Response(self.frameresponse[i],file)
-            self.responsearray.append(response)
+            temp=Response(self.frameresponse[i],file)
+            self.responsearray.append(temp)
 
-
-    def requestarr(self):
-        return self.requestarray
+        #Khoi tao browser
+        for i in range(len(self.requestarray)):
+            self.browser.append(self.requestarray[i].returnbrowser())
 
 
 
